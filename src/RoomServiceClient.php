@@ -320,4 +320,19 @@ class RoomServiceClient extends BaseServiceClient {
     );
   }
 
+  public function sendDataTopic(string $roomName, string $data, int $kind, array $destinationSids = [], string $topic): SendDataResponse {
+        $videoGrant = new VideoGrant();
+        $videoGrant->setRoomName($roomName);
+        $videoGrant->setRoomAdmin();
+        return $this->rpc->SendData(
+            $this->authHeader($videoGrant),
+            new SendDataRequest([
+                'room' => $roomName,
+                'data' => $data,
+                'kind' => $kind,
+                'destination_sids' => $destinationSids,
+                'topic' => $topic,
+            ])
+        );
+    }
 }
